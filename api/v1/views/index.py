@@ -7,6 +7,7 @@ from flask import jsonify
 from api.v1.views import app_views
 from models import storage
 
+
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
     """Return a JSON status of the API"""
@@ -24,8 +25,6 @@ def stats():
         "states": "State",
         "users": "User"
     }
-    
     # Create a dictionary with the count of each class
     stats = {key: storage.count(cls) for key, cls in classes.items()}
-    
     return jsonify(stats)
