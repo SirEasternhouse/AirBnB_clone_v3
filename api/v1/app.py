@@ -1,16 +1,16 @@
 #!/usr/bin/python3
 """
-Flask application for the API
+App module for API
 """
 
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 import os
 
 app = Flask(__name__)
 
-# Register the blueprint
+# Register the app_views blueprint
 app.register_blueprint(app_views)
 
 
@@ -20,10 +20,13 @@ def teardown_db(exception):
     storage.close()
 
 
-if __name__ == "__main__":
-    # Get host and port from environment variables or use defaults
-    host = os.getenv("HBNB_API_HOST", "0.0.0.0")
-    port = int(os.getenv("HBNB_API_PORT", "5000"))
+@app.errorhandler(404)
+def not_found(error):
+    """JSON-formatted 404 error response"""
+    return jsonify({"error": "Not found"}), 404
 
-    # Run the Flask app
+
+if __name__ == "__main__":
+    host = os.getenv('HBNB_API_HOST', '0.0.0.0')
+    port = os.getenv('HBNB_API_PORT', 5000)
     app.run(host=host, port=port, threaded=True)
