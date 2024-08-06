@@ -3,6 +3,12 @@
 Initialize the views package
 """
 
+from flask import Flask, jsonify
+from models import storage
+from api.v1.views import app_views
+from api.v1.views.amenities import *
+import os
+
 from flask import Blueprint
 
 # Create the app_views Blueprint with the url prefix /api/v1
